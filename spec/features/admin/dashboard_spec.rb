@@ -17,7 +17,7 @@ RSpec.describe "Admin Dashboard" do
       visit "/admin"
       click_link "admin invoices"
       expect(current_path).to eq("/admin/invoices")
-
+      
     end
   end
 end
