@@ -1,4 +1,5 @@
 # Little Esty Shop
+[ Table Diagram](https://dbdiagram.io/d/6477d230722eb774942cf7b2)
 
 ## Background and Description
 

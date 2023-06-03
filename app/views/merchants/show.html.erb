@@ -1,3 +1,12 @@
-<h1>Welcome back, <%= @merchant.name %>!<h1>
+<h1>Welcome Back, <%= @merchant.name %></h1>
 <p><%= link_to "My Items", "/merchants/#{@merchant.id}/items" %></p>
 <p><%= link_to "My Invoices", "/merchants/#{@merchant.id}/invoices" %></p>
+
+<section class="top_five_customers">
+<h3> Top Five Customers </h3>
+<ol>
+<% @merchant.top_five_customers.each do |customer| %>
+<li><%= customer.first_name %> <%= customer.last_name %> has <%= customer.transaction_counter %> Succesful Transactions</li>
+<% end %>
+</ol>
+</section>
