@@ -2,3 +2,11 @@
 
 <%= link_to "admin merchants", "/admin/merchants" %><br>
 <%= link_to "admin invoices", "/admin/invoices" %>
+
+<h2>Best Customers</h2>
+<% @customers.top_5_customers.each do |customer|%>
+  <p>
+    Name: <%= customer.first_name %>, <%= customer.last_name %><br>
+    Transactions made: <%= customer.transaction_counter %>
+  </p>
+<% end %>

@@ -61,7 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_212404) do
     t.bigint "invoice_id", null: false
     t.string "credit_card_number"
     t.string "credit_card_expiration_date"
-    t.string "result"
+    t.integer "result"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_transactions_on_invoice_id"
