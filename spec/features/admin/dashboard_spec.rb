@@ -127,7 +127,6 @@ RSpec.describe "Admin Dashboard" do
 
       visit "/admin"
       within("#Incomplete_Invoices") do
-      save_and_open_page
         expect(invoice1.created_at.strftime("%A, %B %d, %Y, %I:%M:%N")).to appear_before(invoice2.created_at.strftime("%A, %B %d, %Y, %I:%M:%N"), only_text: true)
         expect(invoice2.created_at.strftime("%A, %B %d, %Y, %I:%M:%N")).to appear_before(invoice3.created_at.strftime("%A, %B %d, %Y, %I:%M:%N"), only_text: true)
         expect(invoice3.created_at.strftime("%A, %B %d, %Y, %I:%M:%N")).to_not appear_before(invoice2.created_at.strftime("%A, %B %d, %Y, %I:%M:%N"), only_text: true)
