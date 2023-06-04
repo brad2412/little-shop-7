@@ -3,6 +3,6 @@
 <%= @merchants.each do |merchant| %>
   <p>
     Name: <%= merchant.name %><br>
-    <%= link_to "Name: #{merchant.name}", "/admin/merchant#{merchant.id}" %><br>
+    <%= link_to "Name: #{merchant.name}", "/admin/merchants/#{merchant.id}" %><br>
   </p>
 <% end %>
