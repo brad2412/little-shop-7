@@ -1,5 +1,5 @@
 class Admin::DashboardsController < ApplicationController
-  def dashboard
+  def show
     @customers = Customer.all
     @invoices = Invoice.all
   end
