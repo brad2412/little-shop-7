@@ -3,4 +3,4 @@
 <h4><%= @item.name %></h4>
 <p>Description: <%= @item.description %></p>
 <p>Current Selling Price: <%= @item.format_unit_price %></p>
-
+<%= link_to 'Update Item', "merchants/#{@merchant.id}/items/#{@item.id}/update" %>
