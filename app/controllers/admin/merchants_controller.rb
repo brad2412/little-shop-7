@@ -2,6 +2,10 @@ class Admin::MerchantsController < ApplicationController
   def index
     @merchants = Merchant.all
   end
+  
+  def new
+    
+  end
 
   def show
     @merchant = Merchant.find(params[:id])
@@ -13,7 +17,7 @@ class Admin::MerchantsController < ApplicationController
 
   def create
     merchant = Merchant.create(merchant_params)
-    redirect_to "/admin/merchants/#{merchant.id}"
+    redirect_to "/admin/merchants"
   end
 
   def update
