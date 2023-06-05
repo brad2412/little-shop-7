@@ -1,6 +1,6 @@
-require 'rails_helper'
+require 'rails_helper' 
 
-RSpec.describe Merchant, type: :model do
+RSpec.describe 'Merchant Invoice Show' do 
   before(:each) do 
     @merchant_1 = create(:merchant, name: 'Merchant 1')
     @item_1 = Item.create!(name: 'Glue', description: 'Glues stuff together', unit_price: 2, merchant_id: @merchant_1.id)
@@ -15,6 +15,7 @@ RSpec.describe Merchant, type: :model do
     @c5 = Customer.create!(first_name: 'Arwen', last_name: 'Undomiel')
     @c6 = Customer.create!(first_name: 'Legolas', last_name: 'Greenleaf')
     @c7 = Customer.create!(first_name: 'Gandalf', last_name: 'The Great')
+
 
     @inv1 = Invoice.create!(customer_id: @c1.id, status: 2)
     @inv2 = Invoice.create!(customer_id: @c1.id, status: 2)
@@ -52,30 +53,11 @@ RSpec.describe Merchant, type: :model do
     @tran16 = Transaction.create!(invoice_id: @inv7.id, result: 1)
     @tran17 = Transaction.create!(invoice_id: @inv8.id, result: 0)
   end
-  describe 'relationships' do 
-    it { should have_many(:items) }
-    it { should have_many(:invoice_items).through(:items) }
-    it { should have_many(:invoices).through(:invoice_items)}
-    it { should have_many(:customers).through(:invoices) }
-    it { should have_many(:transactions).through(:invoices) }
-  end
 
-  describe 'existence' do 
-    it 'can be instantiated' do 
-      merchant = Merchant.create!(name: 'Helena Nabaoth')
+  describe 'invoice show page exists' do
+    it 'individual invoices have show page routes' do 
+      visit "/merchants/#{@merchant_1.id}/invoices/#{@inv1.id}"
+      expect(page).to have_content("Invoice #{@inv1.id}")      
     end
   end
-
-  describe "top five customers who have conducted the largest number of successful transactions with my merchant" do
-    it "::top_five_customers" do
-      expect(@merchant_1.top_five_customers).to eq([@c1, @c4, @c5, @c2, @c3])
-    end
-  end
-
-  describe " Lists list of the names of all of my items that have been ordered and have not yet been shipped" do
-    it "::items_ready_to_ship" do
-      expect(@merchant_1.items_ready_to_ship).to eq([ @item_3, @item_4])
-    end
-  end
-
 end

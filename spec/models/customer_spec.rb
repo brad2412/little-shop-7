@@ -51,5 +51,13 @@ RSpec.describe Customer, type: :model do
     it "#top_5_customers" do
       expect(Customer.top_5_customers).to eq([person1, person2, person3, person4, person5])
     end
+
+    it "#transaction_counter" do
+      expect(person1.transaction_counter).to eq(5)
+      expect(person2.transaction_counter).to eq(4)
+      expect(person3.transaction_counter).to eq(3)
+      expect(person4.transaction_counter).to eq(2)
+      expect(person5.transaction_counter).to eq(1)
+    end
   end
 end
