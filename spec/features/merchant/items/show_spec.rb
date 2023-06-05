@@ -34,14 +34,14 @@ RSpec.describe 'Merchant Items Show Page', type: :feature do
   describe 'US8 Merchant Item Update' do 
     it 'has a link to update' do 
       visit merchant_item_path(@joshy, @item_4)
-      expect(page).to have_link('Update Item', href: "merchants/#{@joshy.id}/items/#{@item_4.id}/update")
+      expect(page).to have_link('Update Item', href: edit_merchant_item_path(@joshy, @item_4))
     end
 
     it 'clicking on link takes merchant to page' do 
       visit merchant_item_path(@joshy, @item_4)
-      expect(page).to have_link('Update Item', href: "merchants/#{@joshy.id}/items/#{@item_4.id}/update")
+      expect(page).to have_link('Update Item', href: edit_merchant_item_path(@joshy, @item_4))
       click_link('Update Item')
-      expect(current_path).to eq("merchants/#{@joshy.id}/items/#{@item_4.id}/update")
+      expect(current_path).to eq(edit_merchant_item_path(@joshy, @item_4))
     end
   end
 end
