@@ -36,6 +36,13 @@ RSpec.describe 'Merchant Items Show Page', type: :feature do
       visit merchant_item_path(@joshy, @item_4)
       expect(page).to have_link('Update Item', href: "merchants/#{@joshy.id}/items/#{@item_4.id}/update")
     end
+
+    it 'clicking on link takes merchant to page' do 
+      visit merchant_item_path(@joshy, @item_4)
+      expect(page).to have_link('Update Item', href: "merchants/#{@joshy.id}/items/#{@item_4.id}/update")
+      click_link('Update Item')
+      expect(current_path).to eq("merchants/#{@joshy.id}/items/#{@item_4.id}/update")
+    end
   end
 end
 # Merchant Item Update
