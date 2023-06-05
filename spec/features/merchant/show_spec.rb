@@ -79,66 +79,85 @@ RSpec.describe 'Merchant Dashboard' do
       click_link('My Invoices')
       expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices")
     end
+  end
 
-    describe "US3 Lists Top 5 Customers" do
-      it "I see the names of the top 5 customers who have conducted the largest number of successful transactions with my merchant " do
-        visit "/merchants/#{@merchant_1.id}/dashboard"
+  describe "US3 Lists Top 5 Customers" do
+    it "I see the names of the top 5 customers who have conducted the largest number of successful transactions with my merchant " do
+      visit "/merchants/#{@merchant_1.id}/dashboard"
 
-        within(".top_five_customers")do
-          expect(page).to have_content("Top Five Customers")
-          expect(page).to have_content("#{@c1.first_name} #{@c1.last_name} has #{@c1.transaction_counter} Succesful Transactions")
-          expect(page).to have_content("#{@c2.first_name} #{@c2.last_name} has #{@c2.transaction_counter} Succesful Transactions")
-          expect(page).to have_content("#{@c3.first_name} #{@c3.last_name} has #{@c3.transaction_counter} Succesful Transactions")
-          expect(page).to have_content("#{@c4.first_name} #{@c4.last_name} has #{@c4.transaction_counter} Succesful Transactions")
-          expect(page).to have_content("#{@c5.first_name} #{@c5.last_name} has #{@c5.transaction_counter} Succesful Transactions")
-          expect(page).to_not have_content("#{@c6.first_name} #{@c6.last_name} has #{@c6.transaction_counter} Succesful Transactions")
+      within(".top_five_customers")do
+        expect(page).to have_content("Top Five Customers")
+        expect(page).to have_content("#{@c1.first_name} #{@c1.last_name} has #{@c1.transaction_counter} Succesful Transactions")
+        expect(page).to have_content("#{@c2.first_name} #{@c2.last_name} has #{@c2.transaction_counter} Succesful Transactions")
+        expect(page).to have_content("#{@c3.first_name} #{@c3.last_name} has #{@c3.transaction_counter} Succesful Transactions")
+        expect(page).to have_content("#{@c4.first_name} #{@c4.last_name} has #{@c4.transaction_counter} Succesful Transactions")
+        expect(page).to have_content("#{@c5.first_name} #{@c5.last_name} has #{@c5.transaction_counter} Succesful Transactions")
+        expect(page).to_not have_content("#{@c6.first_name} #{@c6.last_name} has #{@c6.transaction_counter} Succesful Transactions")
 
-          expect(@c1.first_name).to appear_before(@c2.first_name)
-          expect(@c4.first_name).to appear_before(@c2.first_name)
-          expect(@c2.first_name).to appear_before(@c3.first_name)
-          expect(@c5.first_name).to appear_before(@c2.first_name)
-          expect(@c2.first_name).to_not appear_before(@c1.first_name)
-        end
+        expect(@c1.first_name).to appear_before(@c2.first_name)
+        expect(@c4.first_name).to appear_before(@c2.first_name)
+        expect(@c2.first_name).to appear_before(@c3.first_name)
+        expect(@c5.first_name).to appear_before(@c2.first_name)
+        expect(@c2.first_name).to_not appear_before(@c1.first_name)
       end
     end
+  end
 
-    describe "US4 Items Ready to Ship" do
-      it " I see a section for 'Items Ready to Ship' In that section I see a list of the names of all of my items that have been ordered and have not yet been shipped" do
-        visit "/merchants/#{@merchant_1.id}/dashboard"
+  describe "US4 Items Ready to Ship" do
+    it " I see a section for 'Items Ready to Ship' In that section I see a list of the names of all of my items that have been ordered and have not yet been shipped" do
+      visit "/merchants/#{@merchant_1.id}/dashboard"
 
-        expect(page).to have_content("Items Ready To Ship")
+      expect(page).to have_content("Items Ready To Ship")
+      expect(page).to have_content(@item_3.name)
+      expect(page).to have_content(@item_4.name)      
+    end
+
+    it "next to each item I see the id of the invoice that ordered my item and each invoice id is a link to my merchant's invoice show page" do
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+      expect(page).to have_content("Invoice ID Links:")
+      expect(page).to have_content(@item_3.name)
+      expect(page).to have_link(@inv3.id)
+      click_link(@inv3.id)
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv3.id}")
+
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+      expect(page).to have_content(@item_3.name)
+      expect(page).to have_link(@inv4.id)
+      click_link(@inv4.id)
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv4.id}")
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv4.id}")
+
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+      expect(page).to have_content(@item_3.name)
+      expect(page).to have_link(@inv5.id)
+      click_link(@inv5.id)
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv5.id}")
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv5.id}")
+
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+      expect(page).to have_content(@item_3.name)
+      expect(page).to have_link(@inv6.id)
+      click_link(@inv6.id)
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv6.id}")
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv6.id}")
+    end
+  end
+
+  describe 'US5 Merchant Dashboard Invoices' do 
+    it 'invoices sorted by least recent' do 
+      visit ("/merchants/#{@merchant_1.id}/dashboard")
+
+      within('#items-ready-to-ship') do 
         expect(page).to have_content(@item_3.name)
-        expect(page).to have_content(@item_4.name)      
-      end
+        # within("#only-#{@item_3}") do 
+          expect(page).to have_link("#{@inv3.id}:") 
+          expect(page).to have_content("#{@inv3.format_date}")
+        # end
 
-      it "next to each item I see the id of the invoice that ordered my item and each invoice id is a link to my merchant's invoice show page" do
-        visit "/merchants/#{@merchant_1.id}/dashboard"
-        expect(page).to have_content("---- Invoice ID Links ")
-        expect(page).to have_content(@item_3.name)
-        expect(page).to have_link(@inv3.id)
-        click_link(@inv3.id)
-        expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv3.id}")
-
-        visit "/merchants/#{@merchant_1.id}/dashboard"
-        expect(page).to have_content(@item_3.name)
-        expect(page).to have_link(@inv4.id)
-        click_link(@inv4.id)
-        expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv4.id}")
-        expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv4.id}")
-
-        visit "/merchants/#{@merchant_1.id}/dashboard"
-        expect(page).to have_content(@item_3.name)
-        expect(page).to have_link(@inv5.id)
-        click_link(@inv5.id)
-        expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv5.id}")
-        expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv5.id}")
-
-        visit "/merchants/#{@merchant_1.id}/dashboard"
-        expect(page).to have_content(@item_3.name)
-        expect(page).to have_link(@inv6.id)
-        click_link(@inv6.id)
-        expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv6.id}")
-        expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@inv6.id}")
+        expect("#{@inv3.id}").to appear_before("#{@inv4.id}")
+        expect("#{@inv4.id}").to appear_before("#{@inv5.id}")
+        expect("#{@inv5.id}").to appear_before("#{@inv6.id}")
+        expect("#{@inv6.id}").to_not appear_before("#{@inv3.id}")
       end
     end
   end

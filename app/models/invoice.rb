@@ -9,4 +9,16 @@ class Invoice < ApplicationRecord
   def self.incomplete_orders
     joins(:invoice_items).select(:id, :created_at).where(invoice_items: {status: [1, 0]}).order(created_at: :asc).uniq
   end
+
+  def format_date
+    created_at.strftime("%A, %B %-d, %Y")
+  end
+
+  def self.order_by_created_at
+    order(:created_at)
+  end
+
+  def self.retrieve_invoice(id)
+    find_by_id(id)
+  end
 end
