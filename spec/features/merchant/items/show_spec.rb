@@ -49,16 +49,19 @@ RSpec.describe 'Merchant Items Show Page', type: :feature do
       expect(page).to have_content("Whoa Nelly!")
       expect(page).to have_content("#{@item_4.name} successfully updated")
     end
+
+    it "renders a prompt message if a field is left blank in form" do
+      visit merchant_item_path(@joshy, @item_4)
+
+      click_link('Update Item')
+      expect(current_path).to eq(edit_merchant_item_path(@joshy, @item_4))
+
+      fill_in(:description, with: "")
+      click_button "Update Item"
+      
+      expect(page).to have_content("All fields must be filled in")
+    end
   end
 end
-# Merchant Item Update
-# As a merchant,
-# When I visit the merchant show page of an item (/merchants/:merchant_id/items/:item_id)
-# I see a link to update the item information.
-# When I click the link
-# Then I am taken to a page to edit this item
-# And I see a form filled in with the existing item attribute information
-# When I update the information in the form and I click ‘submit’
-# Then I am redirected back to the item show page where I see the updated information
-# And I see a flash message stating that the information has been successfully updated.
+
 
