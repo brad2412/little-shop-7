@@ -1,0 +1,6 @@
+<h1> <%= @merchant.name %>'s <%= @item.name %>  Show Page </h1>
+
+<h4><%= @item.name %></h4>
+<p>Description: <%= @item.description %></p>
+<p>Current Selling Price: <%= @item.format_unit_price %></p>
+<%= link_to 'Update Item', edit_merchant_item_path(@merchant, @item)%>

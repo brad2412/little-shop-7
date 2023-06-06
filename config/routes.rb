@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  get "/admin", to: "admin/dashboards#dashboard" 
+  get "/admin", to: "admin/dashboards#index" 
   get "/admin/merchants", to: "admin/merchants#index"
   get "/admin/invoices", to: "admin/invoices#index"
   get "admin/merchants/new", to: "admin/merchants#new"
@@ -11,7 +11,14 @@ Rails.application.routes.draw do
   get "/admin/invoices/:id", to: "admin/invoices#show"
 
   get "/merchants/:id/dashboard", to: "merchants#show"
-  get "/merchants/:id/items", to: "merchants/items#index"
+
+  # get "/merchants/:id/items", to: "merchants/items#index"
+  # get "merchants/:id/items/:id", to: "merchants/items#show"
+  
+  resources :merchants, only: [:show] do
+    resources :items, only: [:index, :show, :edit, :update], controller: "merchants/items"
+  end
+
   get "/merchants/:id/invoices", to: "merchants/invoices#index"
   get "merchants/:id/invoices/:id", to: "merchants/invoices#show"
 

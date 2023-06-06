@@ -23,4 +23,11 @@ RSpec.describe 'merchants/:merchant_id/items', type: :feature do
       expect(page).to_not have_content(@item_4.name)
     end
   end
+
+  describe 'US7 items have links to show pages' do 
+    it 'has link to item show pages' do
+      visit merchant_items_path(@betty) 
+      expect(page).to have_link("#{@item_3.name}", href: merchant_item_path(@betty, @item_3))
+    end
+  end
 end
