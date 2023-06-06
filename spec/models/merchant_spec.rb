@@ -1,57 +1,74 @@
 require 'rails_helper'
 
 RSpec.describe Merchant, type: :model do
-  before(:each) do 
-    @merchant_1 = create(:merchant, name: 'Merchant 1')
-    @item_1 = Item.create!(name: 'Glue', description: 'Glues stuff together', unit_price: 2, merchant_id: @merchant_1.id)
-    @item_2 = Item.create!(name: 'Crayons', description: 'Great to color with', unit_price: 8, merchant_id: @merchant_1.id)
-    @item_3 = Item.create!(name: 'Pencils', description: 'Great to write with', unit_price: 5, merchant_id: @merchant_1.id)
-    @item_4 = Item.create!(name: 'Erasers', description: 'Erases mistakes', unit_price: 3, merchant_id: @merchant_1.id)
+  let!(:person1) {Customer.create!( first_name: "Danger", last_name: "Powers")}
+  let!(:person2) {Customer.create!( first_name: "Forest", last_name: "Gump")}
+  let!(:person3) {Customer.create!( first_name: "Sterling", last_name: "Archer")}
+  let!(:person4) {Customer.create!( first_name: "Napoleon", last_name: "Dynamite")}
+  let!(:person5) {Customer.create!( first_name: "Tom", last_name: "Hanks")}
+  let!(:person6) {Customer.create!( first_name: "Ace", last_name: "Ventura")}
 
-    @c1 = Customer.create!(first_name: 'Bilbo', last_name: 'Baggins')
-    @c2 = Customer.create!(first_name: 'Frodo', last_name: 'Baggins')
-    @c3 = Customer.create!(first_name: 'Samwise', last_name: 'Gamgee')
-    @c4 = Customer.create!(first_name: 'Aragorn', last_name: 'Elessar')
-    @c5 = Customer.create!(first_name: 'Arwen', last_name: 'Undomiel')
-    @c6 = Customer.create!(first_name: 'Legolas', last_name: 'Greenleaf')
-    @c7 = Customer.create!(first_name: 'Gandalf', last_name: 'The Great')
+  let!(:merchant1) {Merchant.create!(name: 'Stuff Emporium', status: 0)}
+  let!(:merchant2) {Merchant.create!(name: 'Junk', status: 1)}
+  let!(:merchant3) {Merchant.create!(name: 'Homemade stuff', status: 0)}
+  let!(:merchant4) {Merchant.create!(name: 'Cool Stuff', status: 1)}
+  let!(:merchant5) {Merchant.create!(name: 'Good Stuff', status: 1)}
+  let!(:merchant6) {Merchant.create!(name: 'Bad Stuff', status: 1)}
+  let!(:merchant7) {Merchant.create!(name: 'junk Stuff', status: 1)}
 
-    @inv1 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @inv2 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @inv3 = Invoice.create!(customer_id: @c2.id, status: 2)
-    @inv4 = Invoice.create!(customer_id: @c3.id, status: 2)
-    @inv5 = Invoice.create!(customer_id: @c4.id, status: 2)
-    @inv6 = Invoice.create!(customer_id: @c5.id, status: 2)
-    @inv7 = Invoice.create!(customer_id: @c6.id, status: 2)
-    @inv8 = Invoice.create!(customer_id: @c7.id, status: 2)
+  let!(:item1) {Item.create!(name: "Toy", description: "Toy", unit_price: 100, merchant_id: merchant2.id )}
+    let!(:item2) {Item.create!(name: "Food", description:  "Food", unit_price: 600, merchant_id: merchant1.id)}
+    let!(:item3) {Item.create!(name: "Shoes", description: "Shoes", unit_price: 12000, merchant_id: merchant5.id)}
+    let!(:item4) {Item.create!(name: "boat", description: "boat", unit_price: 5000000, merchant_id: merchant4.id)}
+    let!(:item5) {Item.create!(name: "cards", description: "cards", unit_price: 500, merchant_id: merchant1.id)}
+    let!(:item6) {Item.create!(name: "sponge", description: "sponge", unit_price: 200, merchant_id: merchant1.id)}
+    let!(:item6) {Item.create!(name: "rubber duck", description: "rubber duck", unit_price: 150, merchant_id: merchant1.id)}
+    let!(:item6) {Item.create!(name: "rubber dino", description: "rubber dino", unit_price: 150, merchant_id: merchant2.id)}
+    let!(:item6) {Item.create!(name: "rubber bands", description: "rubber bands", unit_price: 180, merchant_id: merchant7.id)}
+    
+    let!(:invoice1) {Invoice.create!( customer_id: person1.id, status: 1)}
+    let!(:invoice2) {Invoice.create!( customer_id: person1.id, status: 1)}
+    let!(:invoice3) {Invoice.create!( customer_id: person1.id, status: 1)}
+    let!(:invoice4) {Invoice.create!( customer_id: person1.id, status: 1)}
+    let!(:invoice5) {Invoice.create!( customer_id: person1.id, status: 1)}
+    let!(:invoice6) {Invoice.create!( customer_id: person2.id, status: 1)}
+    let!(:invoice7) {Invoice.create!( customer_id: person2.id, status: 1)}
+    let!(:invoice8) {Invoice.create!( customer_id: person2.id, status: 1)}
+    let!(:invoice9) {Invoice.create!( customer_id: person2.id, status: 1)}
+    let!(:invoice10) {Invoice.create!( customer_id: person3.id, status: 1)}
+    let!(:invoice11) {Invoice.create!( customer_id: person3.id, status: 1)}
+    let!(:invoice12) {Invoice.create!( customer_id: person3.id, status: 1)}
+    let!(:invoice13) {Invoice.create!( customer_id: person4.id, status: 1)}
+    let!(:invoice14) {Invoice.create!( customer_id: person4.id, status: 1)}
+    let!(:invoice15) {Invoice.create!( customer_id: person5.id, status: 1)}
+    let!(:invoice16) {Invoice.create!( customer_id: person6.id, status: 0)}
+    let!(:invoice17) {Invoice.create!( customer_id: person6.id, status: 1)}
 
-    @ii_1 = InvoiceItem.create!(invoice_id: @inv1.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 0)
-    @ii_2 = InvoiceItem.create!(invoice_id: @inv2.id, item_id: @item_2.id, quantity: 1, unit_price: 8, status: 0)
-    @ii_3 = InvoiceItem.create!(invoice_id: @inv3.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 2)
-    @ii_4 = InvoiceItem.create!(invoice_id: @inv4.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 1)
-    @ii_5 = InvoiceItem.create!(invoice_id: @inv5.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 1)
-    @ii_6 = InvoiceItem.create!(invoice_id: @inv6.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 1)
-    @ii_7 = InvoiceItem.create!(invoice_id: @inv7.id, item_id: @item_4.id, quantity: 1, unit_price: 5, status: 1)
-    @ii_8 = InvoiceItem.create!(invoice_id: @inv8.id, item_id: @item_4.id, quantity: 1, unit_price: 5, status: 1)
+    let!(:transaction1) {Transaction.create!( invoice_id: invoice1.id, result: 0)}
+    let!(:transaction2) {Transaction.create!( invoice_id: invoice2.id, result: 0)}
+    let!(:transaction3) {Transaction.create!( invoice_id: invoice3.id, result: 0)}
+    let!(:transaction4) {Transaction.create!( invoice_id: invoice4.id, result: 0)}
+    let!(:transaction5) {Transaction.create!( invoice_id: invoice5.id, result: 0)}
+    let!(:transaction6) {Transaction.create!( invoice_id: invoice6.id, result: 0)}
+    let!(:transaction7) {Transaction.create!( invoice_id: invoice7.id, result: 0)}
+    let!(:transaction8) {Transaction.create!( invoice_id: invoice8.id, result: 0)}
+    let!(:transaction9) {Transaction.create!( invoice_id: invoice9.id, result: 0)}
+    let!(:transaction10) {Transaction.create!( invoice_id: invoice10.id, result: 0)}
+    let!(:transaction11) {Transaction.create!( invoice_id: invoice11.id, result: 0)}
+    let!(:transaction12) {Transaction.create!( invoice_id: invoice12.id, result: 0)}
+    let!(:transaction13) {Transaction.create!( invoice_id: invoice13.id, result: 0)}
+    let!(:transaction14) {Transaction.create!( invoice_id: invoice14.id, result: 0)}
+    let!(:transaction15) {Transaction.create!( invoice_id: invoice15.id, result: 0)}
+    let!(:transaction16) {Transaction.create!( invoice_id: invoice16.id, result: 1)}
+    let!(:transaction17) {Transaction.create!( invoice_id: invoice15.id, result: 0)}
+  
+    let!(:invoice_item1) {InvoiceItem.create!( item_id: item1.id, invoice_id: invoice1.id, status: 0)}
+    let!(:invoice_item2) {InvoiceItem.create!( item_id: item2.id, invoice_id: invoice1.id, status: 1)}
+    let!(:invoice_item3) {InvoiceItem.create!( item_id: item3.id, invoice_id: invoice2.id, status: 0)}
+    let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, status: 1)}
+    let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, status: 0)}
+    let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, status: 2)}
 
-    @tran1 = Transaction.create!(invoice_id: @inv1.id, result: 0)
-    @tran2 = Transaction.create!(invoice_id: @inv1.id, result: 0)
-    @tran3 = Transaction.create!(invoice_id: @inv1.id, result: 0)
-    @tran4 = Transaction.create!(invoice_id: @inv2.id, result: 0)
-    @tran5 = Transaction.create!(invoice_id: @inv2.id, result: 0)
-    @tran6 = Transaction.create!(invoice_id: @inv3.id, result: 0)
-    @tran7 = Transaction.create!(invoice_id: @inv3.id, result: 0)
-    @tran8 = Transaction.create!(invoice_id: @inv4.id, result: 0)
-    @tran9 = Transaction.create!(invoice_id: @inv5.id, result: 0)
-    @tran10 = Transaction.create!(invoice_id: @inv5.id, result: 0)
-    @tran11 = Transaction.create!(invoice_id: @inv5.id, result: 0)
-    @tran12 = Transaction.create!(invoice_id: @inv5.id, result: 0)
-    @tran13 = Transaction.create!(invoice_id: @inv6.id, result: 0)
-    @tran14 = Transaction.create!(invoice_id: @inv6.id, result: 0)
-    @tran15 = Transaction.create!(invoice_id: @inv6.id, result: 0)
-    @tran16 = Transaction.create!(invoice_id: @inv7.id, result: 1)
-    @tran17 = Transaction.create!(invoice_id: @inv8.id, result: 0)
-  end
   describe 'relationships' do 
     it { should have_many(:items) }
     it { should have_many(:invoice_items).through(:items) }
@@ -68,13 +85,19 @@ RSpec.describe Merchant, type: :model do
 
   describe "top five customers who have conducted the largest number of successful transactions with my merchant" do
     it "::top_five_customers" do
-      expect(@merchant_1.top_five_customers).to eq([@c1, @c4, @c5, @c2, @c3])
+      expect(merchant1.top_five_customers).to match_array([person1])
     end
   end
 
   describe " Lists list of the names of all of my items that have been ordered and have not yet been shipped" do
     it "::items_ready_to_ship" do
-      expect(@merchant_1.items_ready_to_ship).to eq([ @item_3, @item_4])
+      expect(merchant1.items_ready_to_ship).to match_array([item2, item4])
+    end
+  end
+
+  describe "top five merchants by revenue" do
+    it "top_five_merchants" do
+      expect(Merchant.top_five_merchants).to match_array([merchant1, merchant2, merchant4, merchant5, merchant7])
     end
   end
 end

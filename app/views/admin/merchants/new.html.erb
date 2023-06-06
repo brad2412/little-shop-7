@@ -1,6 +1,1 @@
-<%= form_with url: "/admin/merchants", method: :post do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-
-  <%= f.submit "Submit" %>
-<% end %>
+<%= render partial: 'form', locals: {url: "/admin/merchants", model: @merchant, method: :post} %>

@@ -49,3 +49,12 @@
   <% end %>
 </section>
 
+<section id = "Top_merchants">
+<p>Top Five Merchants</p>
+
+<% @merchants.top_five_merchants.each do |merchant| %>
+  <p>
+  <%= merchant.name %>
+  </p>
+<% end %>
+
