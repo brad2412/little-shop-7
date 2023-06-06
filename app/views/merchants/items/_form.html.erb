@@ -1,5 +1,5 @@
 <h1><%= @item.name %><h1>
-<%= form_with url: merchant_item_path(@merchant, @item), method: method, local: true do |f| %>
+<%= form_with url: merchant_item_path(@merchant, @item), method: method, data: {turbo: false},  local: true do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name, value: @item.name %>
   <%= f.label :description %>
