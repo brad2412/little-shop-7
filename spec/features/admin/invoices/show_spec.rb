@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Admin invoices Index" do
+RSpec.describe "Admin invoices show" do
   let!(:person1) {Customer.create!( first_name: "Danger", last_name: "Powers")}
     let!(:person2) {Customer.create!( first_name: "Forest", last_name: "Gump")}
     let!(:person3) {Customer.create!( first_name: "Sterling", last_name: "Archer")}
@@ -68,20 +68,13 @@ RSpec.describe "Admin invoices Index" do
     let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, status: 1)}
     let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, status: 0)}
     let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, status: 2)}
-  it "displays admin invoices index page" do
-    visit "admin/invoices"
-    expect(page).to have_content("Admin Invoices")
-    expect(page).to have_content("Customer: #{person1.id}")
-    expect(page).to have_content("ID: #{invoice1.id}")
-    expect(page).to have_content("Status: #{invoice1.status}")
-  end
+  it "displays admin invoice show page" do
 
-  it "links invoice to invoice show page" do
-    visit "admin/invoices"
-    click_link "#{invoice1.id}"
-    expect(current_path).to eq("/admin/invoices/#{invoice1.id}")
-    expect(page).to have_content("Customer: Danger Powers")
+    visit "admin/invoices/#{invoice1.id}"
     expect(page).to have_content("ID: #{invoice1.id}")
     expect(page).to have_content("Status: #{invoice1.status}")
+    expect(page).to have_content(invoice1.created_at.strftime("%A, %B %d, %Y"))
+    expect(page).to have_content("Customer: Danger Powers")
+
   end
 end
