@@ -22,9 +22,9 @@ RSpec.describe Merchant, type: :model do
     let!(:item4) {Item.create!(name: "boat", description: "boat", unit_price: 5000000, merchant_id: merchant4.id)}
     let!(:item5) {Item.create!(name: "cards", description: "cards", unit_price: 500, merchant_id: merchant1.id)}
     let!(:item6) {Item.create!(name: "sponge", description: "sponge", unit_price: 200, merchant_id: merchant1.id)}
-    let!(:item6) {Item.create!(name: "rubber duck", description: "rubber duck", unit_price: 150, merchant_id: merchant1.id)}
-    let!(:item6) {Item.create!(name: "rubber dino", description: "rubber dino", unit_price: 150, merchant_id: merchant2.id)}
-    let!(:item6) {Item.create!(name: "rubber bands", description: "rubber bands", unit_price: 180, merchant_id: merchant7.id)}
+    let!(:item7) {Item.create!(name: "rubber duck", description: "rubber duck", unit_price: 150, merchant_id: merchant1.id)}
+    let!(:item8) {Item.create!(name: "rubber dino", description: "rubber dino", unit_price: 150, merchant_id: merchant2.id)}
+    let!(:item9) {Item.create!(name: "rubber bands", description: "rubber bands", unit_price: 180, merchant_id: merchant7.id)}
     
     let!(:invoice1) {Invoice.create!( customer_id: person1.id, status: 1)}
     let!(:invoice2) {Invoice.create!( customer_id: person1.id, status: 1)}
@@ -60,7 +60,7 @@ RSpec.describe Merchant, type: :model do
     let!(:transaction14) {Transaction.create!( invoice_id: invoice14.id, result: 0)}
     let!(:transaction15) {Transaction.create!( invoice_id: invoice15.id, result: 0)}
     let!(:transaction16) {Transaction.create!( invoice_id: invoice16.id, result: 1)}
-    let!(:transaction17) {Transaction.create!( invoice_id: invoice15.id, result: 0)}
+    let!(:transaction17) {Transaction.create!( invoice_id: invoice17.id, result: 0)}
   
     let!(:invoice_item1) {InvoiceItem.create!( item_id: item1.id, invoice_id: invoice1.id, status: 0)}
     let!(:invoice_item2) {InvoiceItem.create!( item_id: item2.id, invoice_id: invoice1.id, status: 1)}
@@ -68,6 +68,7 @@ RSpec.describe Merchant, type: :model do
     let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, status: 1)}
     let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, status: 0)}
     let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, status: 2)}
+    let!(:invoice_item8) {InvoiceItem.create!( item_id: item3.id, invoice_id: invoice5.id, status: 0)}
 
   describe 'relationships' do 
     it { should have_many(:items) }
@@ -97,7 +98,14 @@ RSpec.describe Merchant, type: :model do
 
   describe "top five merchants by revenue" do
     it "top_five_merchants" do
-      expect(Merchant.top_five_merchants).to match_array([merchant1, merchant2, merchant4, merchant5, merchant7])
+      expect(Merchant.top_five_merchants).to match_array([merchant1, merchant2, merchant4, merchant5])
     end
   end
+
+  describe "instance methods" do
+    it "top_selling_date" do
+      expect(merchant1.top_selling_date).to eq(invoice1.created_at.strftime("%A, %B %d, %Y"))
+    end
+  end
+
 end

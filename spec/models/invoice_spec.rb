@@ -74,6 +74,11 @@ RSpec.describe Invoice, type: :model do
     it '#retrieve_invoice' do 
       expect(Invoice.retrieve_invoice(invoice1.id)).to eq(invoice1)
     end
+    
+  it "#order_by_created_at" do
+      expect(Invoice.order_by_created_at).to match_array([invoice1, invoice2, invoice3, invoice4, invoice5, 
+      invoice6, invoice7, invoice8, invoice9, invoice10, invoice11, invoice12, invoice13, invoice14, invoice15, invoice16])
+    end
   end
   
   describe 'instance methods' do 

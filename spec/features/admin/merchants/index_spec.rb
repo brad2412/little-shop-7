@@ -129,5 +129,17 @@ RSpec.describe "Admin Merchant" do
 
     end
   end
+  it "list merchants best day" do
+    visit "/admin/merchants"
+    within("#Top_merchants") do
+      expect(page).to have_content("Top selling date for Stuff Emporium was: Tuesday, June 06, 2023")
 
+      expect(page).to have_content("Top selling date for Junk was: Tuesday, June 06, 2023")
+      expect(page).to have_content("Top selling date for Cool Stuff was: Tuesday, June 06, 2023")
+      expect(page).to have_content("Top selling date for Good Stuff was: Tuesday, June 06, 2023")
+      expect(page).to have_content("Top selling date for junk Stuff was: Tuesday, June 06, 2023")
+
+
+    end
+  end
 end
