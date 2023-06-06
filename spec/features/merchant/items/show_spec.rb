@@ -43,11 +43,10 @@ RSpec.describe 'Merchant Items Show Page', type: :feature do
       click_link('Update Item')
       expect(current_path).to eq(edit_merchant_item_path(@joshy, @item_4))
 
-      fill_in(:name, with: "Bag of Raisins")
+      fill_in(:description, with: "Whoa Nelly!")
       click_button "Update Item"
       expect(current_path).to eq(merchant_item_path(@joshy, @item_4))
-      expect(page).to have_content('Bag of Raisins')
-save_and_open_page
+      expect(page).to have_content("Whoa Nelly!")
       expect(page).to have_content("#{@item_4.name} successfully updated")
     end
   end
