@@ -30,4 +30,38 @@ RSpec.describe 'Merchant Items Show Page', type: :feature do
       expect(page).to have_content("Current Selling Price: $78.90")
     end
   end
+
+  describe 'US8 Merchant Item Update' do 
+    it 'has a link to update' do 
+      visit merchant_item_path(@joshy, @item_4)
+      expect(page).to have_link('Update Item', href: edit_merchant_item_path(@joshy, @item_4))
+    end
+
+    it 'clicking on link takes merchant to page' do 
+      visit merchant_item_path(@joshy, @item_4)
+      expect(page).to have_link('Update Item', href: edit_merchant_item_path(@joshy, @item_4))
+      click_link('Update Item')
+      expect(current_path).to eq(edit_merchant_item_path(@joshy, @item_4))
+
+      fill_in(:description, with: "Whoa Nelly!")
+      click_button "Update Item"
+      expect(current_path).to eq(merchant_item_path(@joshy, @item_4))
+      expect(page).to have_content("Whoa Nelly!")
+      expect(page).to have_content("#{@item_4.name} successfully updated")
+    end
+
+    it "renders a prompt message if a field is left blank in form" do
+      visit merchant_item_path(@joshy, @item_4)
+
+      click_link('Update Item')
+      expect(current_path).to eq(edit_merchant_item_path(@joshy, @item_4))
+
+      fill_in(:description, with: "")
+      click_button "Update Item"
+      
+      expect(page).to have_content("All fields must be filled in")
+    end
+  end
 end
+
+

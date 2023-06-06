@@ -16,7 +16,11 @@ RSpec.describe Item, type: :model do
     it {should belong_to(:merchant)}
     it {should have_many(:invoice_items)}
     it {should have_many(:invoices).through(:invoice_items)}
-  end
+
+    it { should validate_presence_of :name }
+    it { should validate_presence_of :description }
+    it { should validate_presence_of :unit_price }
+  
 
   describe 'instance methods' do 
     it '#date_format' do 
