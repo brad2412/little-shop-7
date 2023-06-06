@@ -20,7 +20,7 @@ RSpec.describe Item, type: :model do
     it { should validate_presence_of :name }
     it { should validate_presence_of :description }
     it { should validate_presence_of :unit_price }
-  
+  end
 
   describe 'instance methods' do 
     it '#date_format' do 
