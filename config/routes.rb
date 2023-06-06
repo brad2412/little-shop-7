@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resources :merchants, only: [:show] do
     resources :items, only: [:index, :show, :edit, :update], controller: "merchants/items"
   end
-
+  patch "/merchants/:merchant_id/items", to: "merchants/items#update"
   get "/merchants/:id/invoices", to: "merchants/invoices#index"
   get "merchants/:id/invoices/:id", to: "merchants/invoices#show"
 
