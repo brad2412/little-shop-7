@@ -27,17 +27,6 @@ class Admin::MerchantsController < ApplicationController
       flash[:alert] = "Sucessfully edited merchant"
     end
   end
-
-  def disable
-    merchant = Merchant.find(params[:id])
-    merchant.disable
-    redirect_to "/admin/merchants"
-  end
-  def enable
-    merchant = Merchant.find(params[:id])
-    merchant.enable
-    redirect_to "/admin/merchants"
-  end
   
   private
   def merchant_params

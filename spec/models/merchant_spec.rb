@@ -100,4 +100,6 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.top_five_merchants).to match_array([merchant1, merchant2, merchant4, merchant5, merchant7])
     end
   end
+
+
 end

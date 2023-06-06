@@ -19,24 +19,6 @@ class Merchant < ApplicationRecord
     Item.joins(:invoice_items).where(invoice_items: {status: 1}).distinct
   end
 
-  def disable
-    self.update(status: 0)
-    self.save
-  end
-
-  def enable
-    self.update(status: 1)
-    self.save
-  end
-
-  def current_status
-    if self.status == 0
-      "Disabled"
-    else self.status == 1
-      "Enabled"
-    end
-  end
-
   def self.top_five_merchants
     joins(invoices: :transactions).where(transactions: { result: "success"}).select("merchants.id, merchants.name, SUM(invoice_items.unit_price * invoice_items.quantity) as total").group(:id).order("total desc").limit(5)
   end
