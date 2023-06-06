@@ -18,6 +18,9 @@ class Merchants::ItemsController < ApplicationController
     if @item.update(item_params)
       flash[:alert] = "#{@item.name} successfully updated"
       redirect_to merchant_item_path(@merchant, @item)
+    else
+      flash[:alert] = "All fields must be filled in"
+      render :edit
     end
   end
 
