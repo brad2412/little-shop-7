@@ -14,12 +14,10 @@ class Merchants::ItemsController < ApplicationController
   end
   
   def update
-    merchant = Merchant.find(params[:merchant_id])
-    item = Item.find(params[:id])
-    require 'pry'; binding.pry
-    if item.update(name: params[:name], unit_price: params[:unit_price], description: params[:description])
-      redirect_to merchant_item_path(merchant, item)
-      flash[:alert] = "#{item.name} successfully updated"
+    show
+    if @item.update(item_params)
+      flash[:alert] = "#{@item.name} successfully updated"
+      redirect_to merchant_item_path(@merchant, @item)
     end
   end
 
