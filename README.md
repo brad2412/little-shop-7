@@ -1,4 +1,4 @@
-# Little Esty Shop
+# Little Esty Shop: https://little-shop-project.onrender.com/admin/merchants/
 ## Project planning tools
 [ Table Diagram](https://dbdiagram.io/d/6477d230722eb774942cf7b2)
 Github Project Board:  https://github.com/users/brad2412/projects/3/views/2
