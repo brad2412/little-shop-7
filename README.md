@@ -1,5 +1,28 @@
-# Little Esty Shop
+# Little Esty Shop: https://little-shop-project.onrender.com/admin/merchants/
+## Project planning tools
 [ Table Diagram](https://dbdiagram.io/d/6477d230722eb774942cf7b2)
+Github Project Board:  https://github.com/users/brad2412/projects/3/views/2
+
+### Github links for all contributors
+Jesse Sorman:   https://github.com/Jesse193
+Amy Spears:     https://github.com/amspears007
+Kailey Kaes:    https://github.com/kaileykaes
+Bradley Milton: https://github.com/brad2412
+Andy Weissman:  https://github.com/andyweissman6
+
+
+# Discription of the project
+- Can navigate pages, view merchants and items, csv data is accessible
+- Utilized ActiveRecord joins, aggregates, and grouping to fulfill user story functionality
+- Tried to Implement FactoryBot and Faker to support testing
+- Create rake tasks to load data from CSVs into our database
+- Completed the majority of user stories and all Unsplash API calls.
+
+# Future Refactoring
+- Make module for similar model methods
+- Styling to optimize user experience.
+- Create normalized test data across all test files
+- Utilize more partials to DRY up view code
 
 ## Background and Description
 
