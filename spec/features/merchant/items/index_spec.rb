@@ -30,4 +30,27 @@ RSpec.describe 'merchants/:merchant_id/items', type: :feature do
       expect(page).to have_link("#{@item_3.name}", href: merchant_item_path(@betty, @item_3))
     end
   end
+
+  describe "US9 Merchant Item Disable/Enable" do
+    it "Next to each item name I see a button to disable or enable that item. When I click this button  Then I am redirected back to the items index And I see that the items status has changed" do
+      @item_2.update(status: 0)
+      visit merchant_items_path(@betty) 
+      within("#enabled-items-#{@item_1.id}") do
+        expect(page).to have_content("Status: #{@item_1.status}")
+        expect(page).to have_button("Disable")
+        click_button("Disable")
+        expect(current_path).to eq(merchant_items_path(@betty))
+        expect(page).to have_content("Status: Disabled")
+        expect(page).to have_button("Enable")
+      end
+      within("#disabled-items-#{@item_2.id}") do
+        expect(page).to have_content("Status: #{@item_2.status}")
+        expect(page).to have_button("Enable")
+        click_button("Enable")
+        expect(current_path).to eq(merchant_items_path(@betty))
+        # expect(page).to have_content("Status: Enabled")
+        # expect(page).to have_button("Disable")
+      end
+    end
+  end
 end
