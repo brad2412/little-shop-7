@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Admin Merchant" do
+RSpec.describe "Admin invoices show" do
   let!(:person1) {Customer.create!( first_name: "Danger", last_name: "Powers")}
   let!(:person2) {Customer.create!( first_name: "Forest", last_name: "Gump")}
   let!(:person3) {Customer.create!( first_name: "Sterling", last_name: "Archer")}
@@ -62,78 +62,26 @@ RSpec.describe "Admin Merchant" do
   let!(:transaction16) {Transaction.create!( invoice_id: invoice16.id, result: 1)}
   let!(:transaction17) {Transaction.create!( invoice_id: invoice15.id, result: 0)}
 
-  let!(:invoice_item1) {InvoiceItem.create!( item_id: item1.id, invoice_id: invoice1.id, status: 0)}
-  let!(:invoice_item2) {InvoiceItem.create!( item_id: item2.id, invoice_id: invoice1.id, status: 1)}
-  let!(:invoice_item3) {InvoiceItem.create!( item_id: item3.id, invoice_id: invoice2.id, status: 0)}
-  let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, status: 1)}
-  let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, status: 0)}
-  let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, status: 2)}
-
+  let!(:invoice_item1) {InvoiceItem.create!( item_id: item1.id, invoice_id: invoice1.id, quantity: 2, status: 0)}
+  let!(:invoice_item2) {InvoiceItem.create!( item_id: item2.id, invoice_id: invoice1.id, quantity: 4, status: 1)}
+  let!(:invoice_item3) {InvoiceItem.create!( item_id: item3.id, invoice_id: invoice2.id, quantity: 5, status: 0)}
+  let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, quantity: 1, status: 1)}
+  let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, quantity: 6, status: 0)}
+  let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, quantity: 8, status: 2)}
   
-  it "displays merchant index page" do
-    visit "/admin/merchants"
-    expect(page).to have_content("Name: Stuff Emporium")
-    expect(page).to have_content("Junk")
-    expect(page).to have_content("Homemade stuff")
-    expect(page).to have_content("Cool Stuff")
+  it "displays admin invoice show page" do
+    visit "admin/invoices/#{invoice1.id}"
+    expect(page).to have_content("ID: #{invoice1.id}")
+    expect(page).to have_content("Status: #{invoice1.status}")
+    expect(page).to have_content(invoice1.created_at.strftime("%A, %B %d, %Y"))
+    expect(page).to have_content("Customer: Danger Powers")
   end
 
-  it "changes merchant status" do
-    visit "/admin/merchants"
-    click_button "Disable #{merchant1.name}"
-    expect(current_path).to eq("/admin/merchants/#{merchant1.id}")
-    expect(merchant1.status).to eq("Disabled")
-  end
-  
-  it "sorts disabled merchants" do
-    visit "/admin/merchants"
-    within("#Disabled_merchants") do
-      expect(page).to have_content("Stuff Emporium")
-      expect(page).to have_content("Homemade stuff")
-      expect(page).to_not have_content("Cool Stuff")
-    end
-  end
-
-  it "sorts enabled merchants" do
-    visit "/admin/merchants"
-    within("#Enabled_merchants") do
-      expect(page).to have_content("Junk")
-      expect(page).to have_content("Cool Stuff")
-      expect(page).to_not have_content("Homemade stuff")
-    end
-  end
-
-  it "creates new merchant" do
-    visit "/admin/merchants"
-    click_link "New Merchant"
-    expect(current_path).to eq("/admin/merchants/new")
-    fill_in "Name", with: "New Merchant"
-    click_button "Submit"
-    expect(current_path).to eq("/admin/merchants")
-    expect(page).to have_content("New Merchant")
-    expect(page).to have_content("Status: Disabled")
-  end
-  
-  it "sorts top 5 merchants bt revenue" do
-    visit "/admin/merchants"
-    within("#Top_merchants") do
-      expect("Stuff Emporium").to appear_before("Junk", only_text: true)
-      expect("Junk").to appear_before("Cool Stuff", only_text: true)
-      expect("Cool Stuff").to appear_before("Good Stuff", only_text: true)
-      expect("junk Stuff").to_not appear_before("Good Stuff", only_text: true)
-
-    end
-  end
-
-  it "list merchants best day" do
-    visit "/admin/merchants"
-    within("#Top_merchants") do
-      expect(page).to have_content("Top selling date for Stuff Emporium was: #{Time.current.strftime("%A, %B %d, %Y")}")
-
-      expect(page).to have_content("Top selling date for Junk was: #{Time.current.strftime("%A, %B %d, %Y")}")
-      expect(page).to have_content("Top selling date for Cool Stuff was: #{Time.current.strftime("%A, %B %d, %Y")}")
-      expect(page).to have_content("Top selling date for Good Stuff was: #{Time.current.strftime("%A, %B %d, %Y")}")
-      expect(page).to have_content("Top selling date for junk Stuff was: #{Time.current.strftime("%A, %B %d, %Y")}")
-    end
+  it "displays item name, quantity of the item ordered, price of item sold, & Invoice Item status" do
+    visit "admin/invoices/#{invoice1.id}"
+    expect(page).to have_content("Item Name: Toy")
+    expect(page).to have_content("Quantity: 2")
+    expect(page).to have_content("Price: 100")
+    expect(page).to have_content("Status: pending")
   end
 end
