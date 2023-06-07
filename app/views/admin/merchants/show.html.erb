@@ -1,3 +1,7 @@
-
+<br>
+<br>
+<br>
+<%= image_tag Unsplash::Photo.random[:urls][:thumb], alt: "Random Photo", style: "margin: 0 auto;" %>
+<br>
 <h1><%= @merchant.name %></h1>
 <%= link_to "Update Merchant", "/admin/merchants/#{@merchant.id}/edit" %>
