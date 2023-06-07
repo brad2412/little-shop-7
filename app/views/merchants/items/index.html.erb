@@ -1,9 +1,7 @@
 <h1><%= @merchant.name %>'s Items</h1>
-  <% @items.each do |item| %>
-  <p><%= link_to "#{item.name}", merchant_item_path(@merchant, item) %><br></p>
-  <% end %>
 
-  <p>Enabled Items</p>
+
+  <h3>Enabled Items</h3>
 
   <% @items.each do |item| %>
 <section id="enabled-items-<%= item.id%>">
@@ -22,7 +20,7 @@
     <% end %>
   <% end %>
 
-   <p>Disabled Items</p>
+   <h3>Disabled Items</h3>
 
   <% @items.each do |item| %>
 <section id="disabled-items-<%= item.id%>">
