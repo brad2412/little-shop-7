@@ -6,7 +6,7 @@ class Merchants::ItemsController < ApplicationController
 
   def show
     @merchant = Merchant.find(params[:merchant_id])
-    # require 'pry'; binding.pry
+   
     @item= Item.find(params[:id])
   end
   
@@ -16,7 +16,13 @@ class Merchants::ItemsController < ApplicationController
   
   def update
     show
-    if @item.update(item_params)
+    # require 'pry'; binding.pry
+    
+    if 
+      params[:commit] == "Disable"  || params[:commit] == "Enable" 
+      redirect_to merchant_items_path(@merchant) 
+    elsif
+       @item.update(item_params)
       flash[:alert] = "#{@item.name} successfully updated"
       redirect_to merchant_item_path(@merchant, @item)
     else
