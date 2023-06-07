@@ -1,6 +1,10 @@
+
+
+<br>
 <h1> <%= @merchant.name %>'s <%= @item.name %>  Show Page </h1>
 
 <h4><%= @item.name %></h4>
+<%= image_tag Unsplash::Photo.find('5cpBWEl6y6c')[:urls][:thumb], alt: "Specific Photo", style: "margin: 0 auto;" %>
 <p>Description: <%= @item.description %></p>
 <p>Current Selling Price: <%= @item.format_unit_price %></p>
 <%= link_to 'Update Item', edit_merchant_item_path(@merchant, @item)%>
