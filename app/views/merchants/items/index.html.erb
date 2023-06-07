@@ -7,7 +7,7 @@
 
   <% @items.each do |item| %>
 <section id="enabled-items-<%= item.id%>">
-    <% if item.status == "enabled" %>
+    <% if item.status == "Enabled" %>
       <p>
         Name: <%= link_to  "#{item.name}", "items/#{item.id}" %><br>
         Status: <%= item.status %>
@@ -18,11 +18,25 @@
           <%= f.submit "Disable" %>
         <% end %><br>
 </section>
+      </p>
+    <% end %>
+  <% end %>
 
-        <%#= form_with url: "/admin/merchants/#{merchant.id}", method: :patch, local: true do |f| %>
-          <%#= hidden_field_tag :status, "Enabled" %>
-          <%#= f.submit "Enable #{merchant.name}" %>
-        <%# end %>
+   <p>Disabled Items</p>
+
+  <% @items.each do |item| %>
+<section id="disabled-items-<%= item.id%>">
+    <% if item.status == "Disabled" %>
+      <p>
+        Name: <%= link_to  "#{item.name}", "items/#{item.id}" %><br>
+        Status: <%= item.status %>
+
+        <%= form_with url: "/merchants/#{@merchant.id}/items", method: :patch, local: true do |f| %>
+          <%= hidden_field_tag :status, "Enabled" %>
+          <%= f.hidden_field(:id, value: item.id)  %>
+          <%= f.submit "Enable" %>
+        <% end %><br>
+</section>
       </p>
     <% end %>
   <% end %>
