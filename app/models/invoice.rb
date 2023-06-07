@@ -21,4 +21,8 @@ class Invoice < ApplicationRecord
   def self.retrieve_invoice(id)
     find_by_id(id)
   end
+
+  def total_revenue
+    invoice_items.sum("invoice_items.quantity * invoice_items.unit_price")
+  end
 end

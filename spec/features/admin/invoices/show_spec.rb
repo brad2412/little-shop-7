@@ -62,12 +62,12 @@ RSpec.describe "Admin invoices show" do
   let!(:transaction16) {Transaction.create!( invoice_id: invoice16.id, result: 1)}
   let!(:transaction17) {Transaction.create!( invoice_id: invoice15.id, result: 0)}
 
-  let!(:invoice_item1) {InvoiceItem.create!( item_id: item1.id, invoice_id: invoice1.id, quantity: 2, status: 0)}
-  let!(:invoice_item2) {InvoiceItem.create!( item_id: item2.id, invoice_id: invoice1.id, quantity: 4, status: 1)}
-  let!(:invoice_item3) {InvoiceItem.create!( item_id: item3.id, invoice_id: invoice2.id, quantity: 5, status: 0)}
-  let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, quantity: 1, status: 1)}
-  let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, quantity: 6, status: 0)}
-  let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, quantity: 8, status: 2)}
+  let!(:invoice_item1) {InvoiceItem.create!( item_id: item1.id, invoice_id: invoice1.id, quantity: 2, unit_price: 200, status: 0)}
+  let!(:invoice_item2) {InvoiceItem.create!( item_id: item2.id, invoice_id: invoice1.id, quantity: 4, unit_price: 200, status: 1)}
+  let!(:invoice_item3) {InvoiceItem.create!( item_id: item3.id, invoice_id: invoice2.id, quantity: 5, unit_price: 200, status: 0)}
+  let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, quantity: 1, unit_price: 200, status: 1)}
+  let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, quantity: 6, unit_price: 200, status: 0)}
+  let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, quantity: 8, unit_price: 200, status: 2)}
   
   it "displays admin invoice show page" do
     visit "admin/invoices/#{invoice1.id}"
@@ -83,5 +83,11 @@ RSpec.describe "Admin invoices show" do
     expect(page).to have_content("Quantity: 2")
     expect(page).to have_content("Price: 100")
     expect(page).to have_content("Status: pending")
+  end
+
+  it "displays total revenue" do
+    visit "admin/invoices/#{invoice1.id}"
+
+    expect(page).to have_content("Total Revenue: 1200")
   end
 end
