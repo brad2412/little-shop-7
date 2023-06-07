@@ -78,6 +78,7 @@ RSpec.describe "Admin invoices show" do
   end
 
   it "displays item name, quantity of the item ordered, price of item sold, & Invoice Item status" do
+    require 'pry'; binding.pry
     visit "admin/invoices/#{invoice1.id}"
     expect(page).to have_content("Item Name: Toy")
     expect(page).to have_content("Quantity: 2")
