@@ -25,7 +25,7 @@
    <p>Disabled Items</p>
 
   <% @items.each do |item| %>
-
+<section id="disabled-items-<%= item.id%>">
     <% if item.status == "Disabled" %>
       <p>
         Name: <%= link_to  "#{item.name}", "items/#{item.id}" %><br>
@@ -36,6 +36,7 @@
           <%= f.hidden_field(:id, value: item.id)  %>
           <%= f.submit "Enable" %>
         <% end %><br>
+</section>
       </p>
     <% end %>
   <% end %>
