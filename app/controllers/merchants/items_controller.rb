@@ -16,8 +16,12 @@ class Merchants::ItemsController < ApplicationController
   def update
     show
     if @item.update(item_params)
-      flash[:alert] = "#{@item.name} successfully updated"
-      redirect_to merchant_item_path(@merchant, @item)
+      if params[:commit] == "Submit"
+        flash[:alert] = "#{@item.name} successfully updated"
+        redirect_to merchant_item_path(@merchant, @item)
+      else
+        redirect_to merchant_items_path(@merchant) 
+      end
     else
       flash[:alert] = "All fields must be filled in"
       render :edit
@@ -26,6 +30,6 @@ class Merchants::ItemsController < ApplicationController
 
   private
   def item_params
-    params.permit(:name, :unit_price, :description, :id)
+    params.permit(:name, :unit_price, :description, :id, :status)
   end
 end
