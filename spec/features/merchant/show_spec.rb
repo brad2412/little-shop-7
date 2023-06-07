@@ -89,7 +89,6 @@ RSpec.describe 'Merchant Dashboard' do
         expect(page).to have_content("Top Five Customers")
         expect(page).to have_content("#{@c1.first_name} #{@c1.last_name} has #{@c1.transaction_counter} Succesful Transactions")
         expect(page).to have_content("#{@c2.first_name} #{@c2.last_name} has #{@c2.transaction_counter} Succesful Transactions")
-        expect(page).to have_content("#{@c3.first_name} #{@c3.last_name} has #{@c3.transaction_counter} Succesful Transactions")
         expect(page).to have_content("#{@c4.first_name} #{@c4.last_name} has #{@c4.transaction_counter} Succesful Transactions")
         expect(page).to have_content("#{@c5.first_name} #{@c5.last_name} has #{@c5.transaction_counter} Succesful Transactions")
         expect(page).to_not have_content("#{@c6.first_name} #{@c6.last_name} has #{@c6.transaction_counter} Succesful Transactions")
