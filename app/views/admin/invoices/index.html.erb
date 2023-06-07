@@ -1,0 +1,9 @@
+<P> Admin Invoices</p>
+
+<%= @invoices.each do |invoice| %>
+  <p>
+  ID: <%= link_to invoice.id, "/admin/invoices/#{invoice.id}" %><br>
+  Customer: <%= invoice.customer_id %><br>
+  Status: <%= invoice.status %>
+  </p>
+<% end %>

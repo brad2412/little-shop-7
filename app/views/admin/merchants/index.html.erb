@@ -55,6 +55,7 @@
 <% @merchants.top_five_merchants.each do |merchant| %>
   <p>
   <%= merchant.name %>
+  Top selling date for <%= merchant.name%> was: <%= merchant.top_selling_date %>
   </p>
 <% end %>
 

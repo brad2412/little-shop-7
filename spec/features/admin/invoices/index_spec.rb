@@ -1,12 +1,12 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe Merchant, type: :model do
+RSpec.describe "Admin invoices Index" do
   let!(:person1) {Customer.create!( first_name: "Danger", last_name: "Powers")}
-  let!(:person2) {Customer.create!( first_name: "Forest", last_name: "Gump")}
-  let!(:person3) {Customer.create!( first_name: "Sterling", last_name: "Archer")}
-  let!(:person4) {Customer.create!( first_name: "Napoleon", last_name: "Dynamite")}
-  let!(:person5) {Customer.create!( first_name: "Tom", last_name: "Hanks")}
-  let!(:person6) {Customer.create!( first_name: "Ace", last_name: "Ventura")}
+    let!(:person2) {Customer.create!( first_name: "Forest", last_name: "Gump")}
+    let!(:person3) {Customer.create!( first_name: "Sterling", last_name: "Archer")}
+    let!(:person4) {Customer.create!( first_name: "Napoleon", last_name: "Dynamite")}
+    let!(:person5) {Customer.create!( first_name: "Tom", last_name: "Hanks")}
+    let!(:person6) {Customer.create!( first_name: "Ace", last_name: "Ventura")}
 
   let!(:merchant1) {Merchant.create!(name: 'Stuff Emporium', status: 0)}
   let!(:merchant2) {Merchant.create!(name: 'Junk', status: 1)}
@@ -22,9 +22,9 @@ RSpec.describe Merchant, type: :model do
     let!(:item4) {Item.create!(name: "boat", description: "boat", unit_price: 5000000, merchant_id: merchant4.id)}
     let!(:item5) {Item.create!(name: "cards", description: "cards", unit_price: 500, merchant_id: merchant1.id)}
     let!(:item6) {Item.create!(name: "sponge", description: "sponge", unit_price: 200, merchant_id: merchant1.id)}
-    let!(:item7) {Item.create!(name: "rubber duck", description: "rubber duck", unit_price: 150, merchant_id: merchant1.id)}
-    let!(:item8) {Item.create!(name: "rubber dino", description: "rubber dino", unit_price: 150, merchant_id: merchant2.id)}
-    let!(:item9) {Item.create!(name: "rubber bands", description: "rubber bands", unit_price: 180, merchant_id: merchant7.id)}
+    let!(:item6) {Item.create!(name: "rubber duck", description: "rubber duck", unit_price: 150, merchant_id: merchant1.id)}
+    let!(:item6) {Item.create!(name: "rubber dino", description: "rubber dino", unit_price: 150, merchant_id: merchant2.id)}
+    let!(:item6) {Item.create!(name: "rubber bands", description: "rubber bands", unit_price: 180, merchant_id: merchant7.id)}
     
     let!(:invoice1) {Invoice.create!( customer_id: person1.id, status: 1)}
     let!(:invoice2) {Invoice.create!( customer_id: person1.id, status: 1)}
@@ -60,7 +60,7 @@ RSpec.describe Merchant, type: :model do
     let!(:transaction14) {Transaction.create!( invoice_id: invoice14.id, result: 0)}
     let!(:transaction15) {Transaction.create!( invoice_id: invoice15.id, result: 0)}
     let!(:transaction16) {Transaction.create!( invoice_id: invoice16.id, result: 1)}
-    let!(:transaction17) {Transaction.create!( invoice_id: invoice17.id, result: 0)}
+    let!(:transaction17) {Transaction.create!( invoice_id: invoice15.id, result: 0)}
   
     let!(:invoice_item1) {InvoiceItem.create!( item_id: item1.id, invoice_id: invoice1.id, status: 0)}
     let!(:invoice_item2) {InvoiceItem.create!( item_id: item2.id, invoice_id: invoice1.id, status: 1)}
@@ -68,44 +68,20 @@ RSpec.describe Merchant, type: :model do
     let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, status: 1)}
     let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, status: 0)}
     let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, status: 2)}
-    let!(:invoice_item8) {InvoiceItem.create!( item_id: item3.id, invoice_id: invoice5.id, status: 0)}
-
-  describe 'relationships' do 
-    it { should have_many(:items) }
-    it { should have_many(:invoice_items).through(:items) }
-    it { should have_many(:invoices).through(:invoice_items)}
-    it { should have_many(:customers).through(:invoices) }
-    it { should have_many(:transactions).through(:invoices) }
+  it "displays admin invoices index page" do
+    visit "admin/invoices"
+    expect(page).to have_content("Admin Invoices")
+    expect(page).to have_content("Customer: #{person1.id}")
+    expect(page).to have_content("ID: #{invoice1.id}")
+    expect(page).to have_content("Status: #{invoice1.status}")
   end
 
-  describe 'existence' do 
-    it 'can be instantiated' do 
-      merchant = Merchant.create!(name: 'Helena Nabaoth')
-    end
+  it "links invoice to invoice show page" do
+    visit "admin/invoices"
+    click_link "#{invoice1.id}"
+    expect(current_path).to eq("/admin/invoices/#{invoice1.id}")
+    expect(page).to have_content("Customer: Danger Powers")
+    expect(page).to have_content("ID: #{invoice1.id}")
+    expect(page).to have_content("Status: #{invoice1.status}")
   end
-
-  describe "top five customers who have conducted the largest number of successful transactions with my merchant" do
-    it "::top_five_customers" do
-      expect(merchant1.top_five_customers).to match_array([person1])
-    end
-  end
-
-  describe " Lists list of the names of all of my items that have been ordered and have not yet been shipped" do
-    it "::items_ready_to_ship" do
-      expect(merchant1.items_ready_to_ship).to match_array([item2, item4])
-    end
-  end
-
-  describe "top five merchants by revenue" do
-    it "top_five_merchants" do
-      expect(Merchant.top_five_merchants).to match_array([merchant1, merchant2, merchant4, merchant5])
-    end
-  end
-
-  describe "instance methods" do
-    it "top_selling_date" do
-      expect(merchant1.top_selling_date).to eq(invoice1.created_at.strftime("%A, %B %d, %Y"))
-    end
-  end
-
 end
