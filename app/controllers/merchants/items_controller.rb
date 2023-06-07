@@ -16,7 +16,7 @@ class Merchants::ItemsController < ApplicationController
   def update
     show
     if @item.update(item_params)
-      if params[:commit] == "Submit"
+      if params[:commit] == "Update Item"
         flash[:alert] = "#{@item.name} successfully updated"
         redirect_to merchant_item_path(@merchant, @item)
       else
