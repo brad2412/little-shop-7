@@ -1,5 +1,5 @@
-<%= image_tag Unsplash::Photo.find('MnSVpXUyRww')[:urls][:thumb], alt: "Specific Photo", style: "margin: 0 auto;" %>
-
+<%= image_tag Unsplash::Photo.find('MnSVpXUyRww')[:urls][:thumb], alt: "Specific Photo", style: "margin: 0 auto;" %><br>
+<p> Number of likes: <%= Unsplash::Photo.find('MnSVpXUyRww').likes %>
 <!DOCTYPE html>
 <html>
   <head>
