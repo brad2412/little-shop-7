@@ -59,12 +59,12 @@ RSpec.describe Invoice, type: :model do
   let!(:transaction15) {Transaction.create!( invoice_id: invoice15.id, result: 0)}
   let!(:transaction16) {Transaction.create!( invoice_id: invoice16.id, result: 1)}
 
-  let!(:invoice_item1) {InvoiceItem.create!( item_id: item1.id, invoice_id: invoice1.id, status: 0)}
-  let!(:invoice_item2) {InvoiceItem.create!( item_id: item2.id, invoice_id: invoice1.id, status: 1)}
-  let!(:invoice_item3) {InvoiceItem.create!( item_id: item3.id, invoice_id: invoice2.id, status: 0)}
-  let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, status: 1)}
-  let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, status: 0)}
-  let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, status: 2)}
+  let!(:invoice_item1) {InvoiceItem.create!( item_id: item1.id, invoice_id: invoice1.id, quantity: 2, unit_price: 200, status: 0)}
+  let!(:invoice_item2) {InvoiceItem.create!( item_id: item2.id, invoice_id: invoice1.id, quantity: 4, unit_price: 200, status: 1)}
+  let!(:invoice_item3) {InvoiceItem.create!( item_id: item3.id, invoice_id: invoice2.id, quantity: 5, unit_price: 200, status: 0)}
+  let!(:invoice_item4) {InvoiceItem.create!( item_id: item4.id, invoice_id: invoice2.id, quantity: 1, unit_price: 200, status: 1)}
+  let!(:invoice_item5) {InvoiceItem.create!( item_id: item5.id, invoice_id: invoice3.id, quantity: 6, unit_price: 200, status: 0)}
+  let!(:invoice_item7) {InvoiceItem.create!( item_id: item6.id, invoice_id: invoice4.id, quantity: 8, unit_price: 200, status: 2)}
 
   describe "class methods" do
     it "#incomplete_orders" do
@@ -88,6 +88,10 @@ RSpec.describe Invoice, type: :model do
         invoice = create(:invoice, created_at: Time.current) 
         expect(invoice.format_date).to eq("Saturday, January 1, 2000")
       end
+    end
+
+    it "displays total revenue" do
+      expect(invoice1.total_revenue).to eq(1200)
     end
   end
 end
