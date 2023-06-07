@@ -117,7 +117,7 @@ RSpec.describe "Admin Merchant" do
   it "sorts top 5 merchants bt revenue" do
     visit "/admin/merchants"
     within("#Top_merchants") do
-      expect("Stuff Emporium").to appear_before("Junk", only_text: true)
+      expect("Stuff Emporium").to appear_before("Junk")
       expect("Junk").to appear_before("Cool Stuff", only_text: true)
       expect("Cool Stuff").to appear_before("Good Stuff", only_text: true)
       expect("junk Stuff").to_not appear_before("Good Stuff", only_text: true)

@@ -1,3 +1,4 @@
+
 <p>
   ID: <%= @invoice.id %><br>
   Status: <%= @invoice.status %><br>
@@ -16,3 +17,8 @@
     <p>Quantity: <%= invoice_item.quantity %></p>
     <p>Status: <%= invoice_item.status %></p>
   <% end %>
+
+  <br>
+
+  <p>
+    Total Revenue: <%= @invoice.total_revenue  %></p>

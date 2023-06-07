@@ -48,7 +48,6 @@ RSpec.describe 'merchants/:merchant_id/items', type: :feature do
         expect(page).to have_content("Status: #{@item_2.status}")
         expect(page).to have_button("Enable")
         click_button("Enable")
-        save_and_open_page
         expect(current_path).to eq(merchant_items_path(@betty))
       end
     end
